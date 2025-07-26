@@ -1,0 +1,63 @@
+# Ignore build output
+bin/
+obj/
+
+# Ignore user-specific files (Visual Studio/VS Code)
+*.user
+*.suo
+.vscode/
+*.swp
+
+# Ignore Rider project files
+.idea/
+
+# Ignore build results
+*.exe
+*.dll
+*.pdb
+
+# Ignore EF Core migration logs
+*.dbmdl
+
+# Ignore secrets
+secrets.json
+appsettings.Development.json
+appsettings.Local.json
+
+# Ignore logs and diagnostic files
+*.log
+logs/
+
+# Ignore published output
+publish/
+out/
+
+# Ignore temporary files
+*.tmp
+*.temp
+*.bak
+*.ncrunch*
+~$*
+
+# Ignore Docker-related artifacts
+**/docker-compose.override.yml
+**/docker-compose.debug.yml
+**/.env
+.env
+
+# Ignore packages (if you use local)
+packages/
+
+# Ignore coverage and test results
+TestResults/
+coverage/
+
+# Ignore node_modules (if React frontend later)
+node_modules/
+
+# Ignore .DS_Store (macOS)
+.DS_Store
+
+# Ignore Python cache if any simulation scripts
+__pycache__/
+*.pyc

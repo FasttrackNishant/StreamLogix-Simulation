@@ -1,32 +1,28 @@
-// using Microsoft.AspNetCore.Mvc;
+using System.Data;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using ShipmentService.Application.UseCases.Shipments.GetById;
+using ShipmentService.UseCases.Shipments.Dtos;
 
-// namespace ShipmentService.API.Controllers;
+namespace ShipmentService.API.Controllers;
 
-// [ApiController]
-// [Route("[controller]")]
-// public class ShipmentsController : ControllerBase
-// {
-//     private static readonly string[] Summaries = new[]
-//     {
-//         "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-//     };
+[ApiController]
+[Route("[controller]")]
+public class ShipmentsController : ControllerBase
+{
+    private readonly IMediator _mediator;
 
-//     private readonly ILogger<ShipmentsController> _logger;
+    public ShipmentsController(IMediator mediator)
+    {
+        _mediator = mediator;
+    }
 
-//     public WeatherForecastController(ILogger<WeatherForecastController> logger)
-//     {
-//         _logger = logger;
-//     }
+    [HttpGet]
+    [Route("/getById/{id}")]
+    public async Task<ActionResult<ShipmentDto>> GetById(int id)
+    {
+        var result = await _mediator.Send(new GetShipmentByIdQuery(id));
 
-//     [HttpGet(Name = "GetWeatherForecast")]
-//     public IEnumerable<WeatherForecast> Get()
-//     {
-//         return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-//         {
-//             Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-//             TemperatureC = Random.Shared.Next(-20, 55),
-//             Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-//         })
-//         .ToArray();
-//     }
-// }
+        return Ok(result);
+    }    
+}

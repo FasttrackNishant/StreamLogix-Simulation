@@ -7,7 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MediatR" Version="13.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.6" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.7" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../ShipmentService.Application/ShipmentService.Application.csproj" />
+    <ProjectReference Include="../ShipmentService.Domain/ShipmentService.Domain.csproj" />
+    <ProjectReference Include="../ShipmentService.Infrastructure/ShipmentService.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,0 +1,129 @@
+-- Industries
+INSERT INTO Industries (Name, Description) VALUES
+('Logistics', 'Logistics and supply chain services'),
+('Retail', 'Retail industry and product management');
+
+-- Companies
+INSERT INTO Companies (Name, IndustryId, CreatedAt) VALUES
+('BlueDart', 1, GETDATE()),
+('Flipkart', 2, GETDATE());
+
+-- States
+INSERT INTO States (Name) VALUES
+('Maharashtra'),
+('Delhi');
+
+-- Cities
+INSERT INTO Cities (Name, StateId) VALUES
+('Mumbai', 1),
+('Pune', 1),
+('Nagpur', 1),
+('Thane', 1),
+('Nashik', 1),
+('Delhi', 2),
+('New Delhi', 2),
+('Dwarka', 2),
+('Rohini', 2),
+('Saket', 2);
+
+-- Addresses
+INSERT INTO Addresses (Street, CityId) VALUES
+('123 Marine Drive', 1),
+('456 Shivajinagar Road', 2),
+('789 Itwari Market', 3),
+('Plot 11, Ghodbunder Road', 4),
+('MIDC Industrial Zone', 5),
+('Rajiv Chowk', 6),
+('Janpath Lane', 7),
+('Sector 12, Dwarka', 8),
+('Block D, Rohini', 9),
+('Saket Metro Station', 10);
+
+-- Warehouses
+INSERT INTO Warehouses (Name, CompanyId, AddressId) VALUES
+('Mumbai Hub', 1, 1),
+('Pune Facility', 1, 2),
+('Nagpur Storage', 2, 3),
+('Thane Depot', 1, 4),
+('Nashik Storehouse', 2, 5);
+
+-- Zones
+INSERT INTO Zones (Name, WarehouseId, ZoneType, OrderIndex) VALUES
+('Inbound A', 1, 'Inbound', 1),
+('Sorting A', 1, 'Sorting', 2),
+('Outbound A', 1, 'Outbound', 3),
+('Inbound B', 2, 'Inbound', 1),
+('Sorting B', 2, 'Sorting', 2);
+
+-- Users
+INSERT INTO Users (FullName, Email, PasswordHash, Role, CompanyId, WarehouseId) VALUES
+('Nishant Dev', 'nishant@example.com', 'hashedpassword1', 'Admin', 1, 1),
+('Amit Verma', 'amit@example.com', 'hashedpassword2', 'Manager', 2, 2);
+
+-- AssetCategories
+INSERT INTO AssetCategories (Name, Code, Description) VALUES
+('Electronics', 'ELEC', 'Electronic items like laptops, scanners, etc.'),
+('Furniture', 'FURN', 'Furniture including chairs, racks, etc.');
+
+-- Assets
+INSERT INTO Assets (Name, Code, CompanyId, WarehouseId, CategoryId, Status, IsSimulated, CreatedAt) VALUES
+('Barcode Scanner', 'AST001', 1, 1, 1, 'Active', 0, GETDATE()),
+('Plastic Chair', 'AST002', 2, 2, 2, 'In Use', 1, GETDATE());
+
+-- SourceSystems
+INSERT INTO SourceSystems (Name, Code, Description, IsActive, CreatedAt) VALUES
+('SAP', 'SAP', 'ERP system', 1, GETDATE()),
+('Salesforce', 'SFDC', 'CRM platform', 1, GETDATE());
+
+-- Shipments
+INSERT INTO Shipments (AssetId, SourceAddressId, DestinationAddressId, Status, CustomFlow, TriggeredBy, TriggeredAt, ExpectedDelivery, SourceSystemId, ExternalOrderId) VALUES
+(1, 1, 6, 'In Transit', 0, 1, GETDATE(), DATEADD(DAY, 3, GETDATE()), 1, 'ORD001'),
+(2, 2, 7, 'Dispatched', 1, 2, GETDATE(), DATEADD(DAY, 5, GETDATE()), 2, 'ORD002');
+
+-- MovementLogs
+INSERT INTO MovementLogs (ShipmentId, AssetId, ZoneId, Timestamp) VALUES
+(1, 1, 1, GETDATE()),
+(1, 1, 2, DATEADD(HOUR, 2, GETDATE()));
+
+-- Routes
+INSERT INTO Routes (Name, WarehouseId, IsDefault, Description) VALUES
+('Route A', 1, 1, 'Primary Route'),
+('Route B', 2, 0, 'Secondary Route');
+
+-- RouteZones
+INSERT INTO RouteZones (RouteId, ZoneId, Sequence) VALUES
+(1, 1, 1),
+(1, 2, 2),
+(1, 3, 3);
+
+-- AssetFiles
+INSERT INTO AssetFiles (AssetId, FilePath, FileType, UploadedAt) VALUES
+(1, '/files/scanner_manual.pdf', 'application/pdf', GETDATE()),
+(2, '/files/chair_image.jpg', 'image/jpeg', GETDATE());
+
+-- Containers
+INSERT INTO Containers (Code, Name, Type, Status, CreatedAt) VALUES
+('C001', 'Plastic Bin A', 'Plastic', 'Available', GETDATE()),
+('C002', 'Wooden Crate B', 'Wooden', 'Occupied', GETDATE());
+
+-- AssetContainerMap
+INSERT INTO AssetContainerMap (AssetId, ContainerId) VALUES
+(1, 1),
+(2, 2);
+
+INSERT INTO ShipmentStatuses (Name)
+VALUES 
+    ('Draft'),
+    ('Pending'),
+    ('In Transit'),
+    ('Completed');
+
+CREATE TABLE ShipmentStatuses (
+    Id INT PRIMARY KEY IDENTITY(1,1),
+    Name VARCHAR(100) NOT NULL UNIQUE
+);
+
+
+    ALTER TABLE Shipments
+ADD ShipmentStatusId INT 
+    CONSTRAINT FK_Shipments_ShipmentStatuses FOREIGN KEY REFERENCES ShipmentStatuses(Id);

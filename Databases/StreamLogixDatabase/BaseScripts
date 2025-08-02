@@ -1,0 +1,155 @@
+CREATE TABLE Industries (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    Name VARCHAR(100),
+    Description VARCHAR(255)
+);
+
+CREATE TABLE Companies (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    Name VARCHAR(100),
+    IndustryId INT FOREIGN KEY REFERENCES Industries(Id),
+    CreatedAt DATETIME
+);
+
+CREATE TABLE States (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    Name VARCHAR(100)
+);
+
+CREATE TABLE Cities (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    Name VARCHAR(100),
+    StateId INT FOREIGN KEY REFERENCES States(Id)
+);
+
+CREATE TABLE Addresses (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    Street VARCHAR(255),
+    CityId INT FOREIGN KEY REFERENCES Cities(Id)
+);
+
+CREATE TABLE Warehouses (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    Name VARCHAR(100),
+    CompanyId INT FOREIGN KEY REFERENCES Companies(Id),
+    AddressId INT FOREIGN KEY REFERENCES Addresses(Id)
+);
+
+CREATE TABLE Zones (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    Name VARCHAR(100),
+    WarehouseId INT FOREIGN KEY REFERENCES Warehouses(Id),
+    ZoneType VARCHAR(50),
+    OrderIndex INT
+);
+
+CREATE TABLE Users (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    FullName VARCHAR(100),
+    Email VARCHAR(100),
+    PasswordHash VARCHAR(255),
+    Role VARCHAR(50),
+    CompanyId INT FOREIGN KEY REFERENCES Companies(Id),
+    WarehouseId INT FOREIGN KEY REFERENCES Warehouses(Id)
+);
+
+CREATE TABLE AssetCategories (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    Name VARCHAR(100),
+    Code VARCHAR(50),
+    Description VARCHAR(255)
+);
+
+CREATE TABLE Assets (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    Name VARCHAR(100),
+    Code VARCHAR(50),
+    CompanyId INT FOREIGN KEY REFERENCES Companies(Id),
+    WarehouseId INT FOREIGN KEY REFERENCES Warehouses(Id),
+    CategoryId INT FOREIGN KEY REFERENCES AssetCategories(Id),
+    Status VARCHAR(50),
+    IsSimulated BIT,
+    CreatedAt DATETIME
+);
+
+CREATE TABLE SourceSystems (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    Name VARCHAR(100),
+    Code VARCHAR(50),
+    Description VARCHAR(255),
+    IsActive BIT,
+    CreatedAt DATETIME
+);
+
+CREATE TABLE Shipments (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    AssetId INT FOREIGN KEY REFERENCES Assets(Id),
+    SourceAddressId INT FOREIGN KEY REFERENCES Addresses(Id),
+    DestinationAddressId INT FOREIGN KEY REFERENCES Addresses(Id),
+    Status VARCHAR(50),
+    CustomFlow BIT,
+    TriggeredBy INT FOREIGN KEY REFERENCES Users(Id),
+    TriggeredAt DATETIME,
+    ExpectedDelivery DATETIME,
+    SourceSystemId INT FOREIGN KEY REFERENCES SourceSystems(Id),
+    ExternalOrderId VARCHAR(100)
+);
+
+CREATE TABLE MovementLogs (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    ShipmentId INT FOREIGN KEY REFERENCES Shipments(Id),
+    AssetId INT FOREIGN KEY REFERENCES Assets(Id),
+    ZoneId INT FOREIGN KEY REFERENCES Zones(Id),
+    Timestamp DATETIME
+);
+
+CREATE TABLE Routes (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    Name VARCHAR(100),
+    WarehouseId INT FOREIGN KEY REFERENCES Warehouses(Id),
+    IsDefault BIT,
+    Description VARCHAR(255)
+);
+
+CREATE TABLE RouteZones (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    RouteId INT FOREIGN KEY REFERENCES Routes(Id),
+    ZoneId INT FOREIGN KEY REFERENCES Zones(Id),
+    Sequence INT
+);
+
+CREATE TABLE AssetFiles (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    AssetId INT FOREIGN KEY REFERENCES Assets(Id),
+    FilePath VARCHAR(255),
+    FileType VARCHAR(50),
+    UploadedAt DATETIME
+);
+
+CREATE TABLE Containers (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    Code VARCHAR(100),
+    Name VARCHAR(100),
+    Type VARCHAR(50),
+    Status VARCHAR(50),
+    CreatedAt DATETIME
+);
+
+CREATE TABLE AssetContainerMap (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    AssetId INT FOREIGN KEY REFERENCES Assets(Id),
+    ContainerId INT FOREIGN KEY REFERENCES Containers(Id)
+);
+
+
+
+CREATE TABLE ShipmentStatuses (
+    Id INT PRIMARY KEY IDENTITY(1,1),
+    Name VARCHAR(100) NOT NULL UNIQUE
+);
+
+
+    ALTER TABLE Shipments
+ADD ShipmentStatusId INT 
+    CONSTRAINT FK_Shipments_ShipmentStatuses FOREIGN KEY REFERENCES ShipmentStatuses(Id);
+

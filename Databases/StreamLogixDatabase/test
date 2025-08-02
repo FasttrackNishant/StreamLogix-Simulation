@@ -1,0 +1,39 @@
+SELECT * from users;
+
+select * from warehouses
+
+select * from MovementLogs
+
+select * from companies;
+
+
+SELECT c.Name AS Company, w.Name AS Warehouse, z.Name AS Zone
+FROM Companies c
+JOIN Warehouses w ON c.Id = w.CompanyId
+JOIN Zones z ON w.Id = z.WarehouseId;
+
+select * from Zones
+
+select * from AssetCategories
+
+SELECT * from shipments
+
+
+CREATE PROCEDURE usp_GetShipmentDetailsById
+    @ShipmentId INT
+AS
+BEGIN
+    SELECT 
+        s.Id ,
+        s.AssetId,
+        ss.Name AS Status,
+        s.TriggeredAt,
+        s.ExpectedDelivery,
+        s.ExternalOrderId
+    FROM Shipments s
+    INNER JOIN ShipmentStatuses ss ON s.ShipmentStatusId = ss.Id
+    WHERE s.Id = 1;
+END
+
+
+SELECT 

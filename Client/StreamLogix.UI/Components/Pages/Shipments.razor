@@ -1,0 +1,28 @@
+@page "/shipments"
+@using StreamLogix.UI.Services
+@inject ShipmentHubClient ShipmentHubClient
+
+<h3>Live Shipment Updates</h3>
+
+<ul>
+    @foreach (var status in _statuses)
+    {
+        <li>@status</li>
+    }
+</ul>
+
+@code {
+    private List<string> _statuses = new();
+
+    protected override void OnInitialized()
+    {
+        ShipmentHubClient.OnStatusReceived += (msg) =>
+        {
+            InvokeAsync(() =>
+            {
+                _statuses.Add(msg);
+                StateHasChanged();
+            });
+        };
+    }
+}

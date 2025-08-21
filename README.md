@@ -1,20 +1,23 @@
-StreamLogix-Simulation
+# StreamLogix-Simulation
 
 StreamLogix-Simulation is a microservices-based simulation platform designed to model and manage logistics operations. Built with .NET Core and Docker, it provides a scalable and modular architecture for simulating various logistics processes.
 
-🚀 Features
-	•	Microservices Architecture: Comprises multiple services such as AssetService, AuthService, Client, CompanyService, MovementService, NotificationService, ShipmentService, and SimulationService.
-	•	Database Integration: Utilizes a dedicated database project (StreamLogixDBProject) for data management.
-	•	Docker Support: Includes a docker-compose.yml file for easy containerization and deployment.
-	•	Service Communication: Facilitates inter-service communication for cohesive simulation workflows.
+## 🚀 Features
 
-🛠️ Technologies Used
-	•	Backend: .NET Core
-	•	Containerization: Docker
-	•	Database: SQL Server (assumed based on project structure)
+- **Microservices Architecture**: Comprises multiple services such as `AssetService`, `AuthService`, `Client`, `CompanyService`, `MovementService`, `NotificationService`, `ShipmentService`, and `SimulationService`.
+- **Database Integration**: Utilizes a dedicated database project (`StreamLogixDBProject`) for data management.
+- **Docker Support**: Includes a `docker-compose.yml` file for easy containerization and deployment.
+- **Service Communication**: Facilitates inter-service communication for cohesive simulation workflows.
 
-📁 Project Structure
+## 🛠️ Technologies Used
 
+- **Backend**: .NET Core
+- **Containerization**: Docker
+- **Database**: SQL Server (assumed based on project structure)
+
+## 📁 Project Structure
+
+```
 StreamLogix-Simulation/
 ├── AssetService/
 ├── AuthService/
@@ -27,34 +30,42 @@ StreamLogix-Simulation/
 ├── StreamLogixDBProject/
 ├── docker-compose.yml
 └── .gitignore
+```
 
-⚙️ Setup Instructions
+## ⚙️ Setup Instructions
 
-Prerequisites
-	•	Docker
-	•	Docker Compose
+### Prerequisites
 
-Steps
-	1.	Clone the Repository
+- Docker
+- Docker Compose
 
-git clone https://github.com/FasttrackNishant/StreamLogix-Simulation.git
-cd StreamLogix-Simulation
+### Steps
 
+1. **Clone the Repository**
 
-	2.	Build and Run Containers
+   ```bash
+   git clone https://github.com/FasttrackNishant/StreamLogix-Simulation.git
+   cd StreamLogix-Simulation
+   ```
 
-docker-compose up --build
+2. **Build and Run Containers**
 
-This command will build and start all the services defined in the docker-compose.yml file.
+   ```bash
+   docker-compose up --build
+   ```
 
-	3.	Accessing the Services
-	•	Services will be available on their respective ports as defined in the docker-compose.yml file.
-	•	Ensure that the services are properly configured to communicate with each other.
+   This command will build and start all the services defined in the `docker-compose.yml` file.
 
-🧪 Running Simulations
-	•	Once the services are up and running, you can initiate simulations through the SimulationService.
-	•	Ensure that all required data and configurations are in place for accurate simulation results.
+3. **Accessing the Services**
 
-📄 License
+   - Services will be available on their respective ports as defined in the `docker-compose.yml` file.
+   - Ensure that the services are properly configured to communicate with each other.
+
+## 🧒 Running Simulations
+
+- Once the services are up and running, you can initiate simulations through the `SimulationService`.
+- Ensure that all required data and configurations are in place for accurate simulation results.
+
+## 📜 License
 
 This project is licensed under the MIT License.

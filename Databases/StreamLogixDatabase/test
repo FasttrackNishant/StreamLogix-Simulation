@@ -1,11 +1,10 @@
 SELECT * from users;
 
-select * from warehouses
+SELECT * from warehouses
 
 select * from MovementLogs
 
 select * from companies;
-
 
 SELECT c.Name AS Company, w.Name AS Warehouse, z.Name AS Zone
 FROM Companies c
